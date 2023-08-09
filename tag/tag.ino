@@ -27,10 +27,6 @@ void setup() {
   //nfc/rfid
   Serial.begin(115200);
   nfc.begin();
-  uint8_t it[]={0x##, 0x##, 0x##, 0x##};    //it
-  uint8_t self[]={0x##, 0x##, 0x##, 0x##};   //self-player
-  uint8_t other[]={0x##, 0x##, 0x##, 0x##};  //other-player
-
 
   //lights
   strip.begin();
@@ -50,17 +46,21 @@ void loop() {
   uint8_t uidLength;
   nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);   //read card
 
-  if (uid[]==it[]){                             //if uid = it; do this
+  uint8_t it[]={0x##, 0x##, 0x##, 0x##};    //it
+  uint8_t self[]={0x##, 0x##, 0x##, 0x##};   //self-player
+  uint8_t other[]={0x##, 0x##, 0x##, 0x##};  //other-player
+
+  if (uid==it){                             //if uid = it; do this
     colorWipe(strip.Color(0,0,255),0);     //change color to blue
     delay(10000);                           //wait 10 seconds
     countDown(strip.Color(255,0,255),strip.Color(0,0,255)); 
   }
 
-  if (uid[]==other[]){
+  if (uid==other){
     colorWipe(strip.Color(0,255,0)0);         //un-freeze, back to green
   }
 
-  if (uid[]==self[]) {                                            //if you try to cheat&tag yourself
+  if (uid==self) {                                            //if you try to cheat&tag yourself
     cheat(strip.Color(255,0, 0),strip.Color(255,255,0));        //lights show big "x"
   }                    
 
